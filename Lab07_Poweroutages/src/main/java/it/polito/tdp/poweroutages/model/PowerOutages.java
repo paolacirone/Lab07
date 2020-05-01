@@ -97,7 +97,7 @@ public class PowerOutages {
 
 	@Override
 	public String toString() {
-		return id+ " "+nerc.getId()+ " " + this.numeroPersone+" "+this.dataInizio+ " "+ this.dataFine;
+		return dataInizio.getYear()+ "  "+nerc.getId()+ "  " + this.numeroPersone+"  "+this.dataInizio+ "  "+ this.dataFine;
 	} 
 	
 	

@@ -1,10 +1,12 @@
 package it.polito.tdp.poweroutages;
 
 import java.net.URL;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.poweroutages.model.Model;
 import it.polito.tdp.poweroutages.model.Nerc;
+import it.polito.tdp.poweroutages.model.PowerOutages;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,6 +46,11 @@ public class FXMLController {
     @FXML
     void doCalcolaWorstCase(ActionEvent event) {
     	
+    	//this.txtHours.clear();
+    	//this.txtYears.clear();
+    	//this.txtResult.clear();
+ 
+    	
     	int maxYears=0;
     	int maxHours=0; 
     	
@@ -55,8 +62,26 @@ public class FXMLController {
     	}
     	
     	Nerc c = this.choiceBox.getValue();
+    	int numeroPersoneCoinvolte=0; 
+    	long oreImpiegate=0; 
     	
-    	this.txtResult.appendText(" "+model.massimizzaSequenza(maxYears, maxHours, c));
+    	for(PowerOutages p: model.massimizzaSequenza(maxYears, maxHours, c)) {
+    		numeroPersoneCoinvolte+=p.getNumeroPersone(); 
+    		oreImpiegate+= p.getDataInizio().until(p.getDataFine(), ChronoUnit.HOURS);
+    	}
+    	
+    	this.txtResult.appendText("Numero persone coinvolte: "+numeroPersoneCoinvolte+"\n");
+    	this.txtResult.appendText("Ore impiegate: "+oreImpiegate+ "\n");
+    	
+    	
+    	for(PowerOutages p: model.massimizzaSequenza(maxYears, maxHours, c)) {
+    	
+    		this.txtResult.appendText(p+"\n");
+    	}
+    	
+    	
+    	//this.txtResult.appendText(" "+model.massimizzaSequenza(maxYears, maxHours, c));
+    	//this.txtResult.appendText(String.format(" \n", model.massimizzaSequenza(maxYears, maxHours, c)));
 
     }
 

@@ -27,7 +27,7 @@ public class TestModel {
 	    
 	   // int x = l.get
 		
-		System.out.println(model.verificaValida2(p, l, 500));
+		//System.out.println(model.verificaValida2(p, l, 500));
 		
 	
 	}

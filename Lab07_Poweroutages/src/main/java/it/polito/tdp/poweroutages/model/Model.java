@@ -1,6 +1,7 @@
 package it.polito.tdp.poweroutages.model;
 
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,30 +50,34 @@ public class Model {
 		}
 
 		for (PowerOutages p : blackOutAnni) {
+			if(!parziale.contains(p)) {
 			if (verificaValida(p, parziale, y)) {
 				parziale.add(p);
 				ricorsiva(parziale, livello + 1, y);
 				parziale.remove(parziale.size() - 1);
 			}
 		}
+		}
 	}
 
 	private boolean verificaValida(PowerOutages p, List<PowerOutages> parziale, int y) {
 
-		int orarioTotale = 0;
+		long orarioTotale = 0;
 
 		for (PowerOutages c : parziale) {
-			orarioTotale += Duration.between(c.getDataInizio(), c.getDataFine()).toSecondsPart()/ 3600+
+			/*orarioTotale += Duration.between(c.getDataInizio(), c.getDataFine()).toSecondsPart()/ 3600+
 					+ Duration.between(c.getDataInizio(), c.getDataFine()).toMinutesPart() / 60
 					+ Duration.between(c.getDataInizio(), c.getDataFine()).toHoursPart();
-		
+		   */
+			
+			orarioTotale+= c.getDataInizio().until(c.getDataFine(), ChronoUnit.HOURS);
 		}
 
-		
-		int orarioP = Duration.between(p.getDataInizio(), p.getDataFine()).toSecondsPart() / 3600
+		long orarioP= p.getDataInizio().until(p.getDataFine(), ChronoUnit.HOURS);
+		/*int orarioP = Duration.between(p.getDataInizio(), p.getDataFine()).toSecondsPart() / 3600
 				+ Duration.between(p.getDataInizio(), p.getDataFine()).toMinutesPart() / 60
 				+ Duration.between(p.getDataInizio(), p.getDataFine()).toHoursPart();
-
+             */
 		//System.out.println(orarioTotale + orarioP);
 		if (orarioTotale + orarioP < y)
 			return true;
@@ -90,7 +95,7 @@ public class Model {
 		return conta;
 	}
 
-	public boolean verificaValida2(PowerOutages p, PowerOutages l, int y) {
+	/*public boolean verificaValida2(PowerOutages p, PowerOutages l, int y) {
 
 		int orarioTotaleL = 0;
 
@@ -111,6 +116,6 @@ public class Model {
 			return true;
 
 		return false;
-	}
+	}*/
 
 }
